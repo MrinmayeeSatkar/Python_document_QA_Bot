@@ -1,0 +1,359 @@
+A **PDF Question Answering Bot** is one of the best beginner GenAI projects because it teaches you almost every core concept used in modern AI applications, including document processing, embeddings, vector databases, and Retrieval-Augmented Generation (RAG).
+
+## Project Goal
+
+The user uploads a PDF, and then asks questions in natural language.
+
+**Example:**
+
+**User uploads:** `Python_Basics.pdf`
+
+**Question:** "What is inheritance?"
+
+**Bot:** "Inheritance is an OOP concept where one class acquires the properties and methods of another class."
+
+---
+
+# Step-by-Step Roadmap
+
+## Step 1: Learn the Prerequisites (2–3 days)
+
+Before building the project, make sure you're comfortable with:
+
+* Python functions
+* Classes and objects
+* Lists and dictionaries
+* Reading and writing files
+* Virtual environments (`venv`)
+* Installing packages with `pip`
+
+---
+
+## Step 2: Create the Project Folder
+
+Example structure:
+
+```text
+PDF_QA_Bot/
+│
+├── app.py
+├── requirements.txt
+├── data/
+├── uploads/
+├── vector_db/
+├── utils.py
+└── README.md
+```
+
+---
+
+## Step 3: Install Required Libraries
+
+Create a virtual environment:
+
+```bash
+python -m venv venv
+```
+
+Activate it:
+
+**Windows**
+
+```bash
+venv\Scripts\activate
+```
+
+Install packages:
+
+```bash
+pip install streamlit
+pip install langchain
+pip install langchain-community
+pip install langchain-google-genai
+pip install faiss-cpu
+pip install pypdf
+pip install python-dotenv
+pip install sentence-transformers
+```
+
+You can later save them:
+
+```bash
+pip freeze > requirements.txt
+```
+
+---
+
+## Step 4: Learn the Project Flow
+
+The pipeline is:
+
+```text
+User Uploads PDF
+        ↓
+Read PDF
+        ↓
+Extract Text
+        ↓
+Split into Chunks
+        ↓
+Convert Chunks to Embeddings
+        ↓
+Store in Vector Database (FAISS)
+        ↓
+User Asks Question
+        ↓
+Find Most Relevant Chunks
+        ↓
+Send Context + Question to LLM
+        ↓
+Return Answer
+```
+
+This is the standard RAG architecture.
+
+---
+
+## Step 5: Read the PDF
+
+Use `pypdf` to extract text.
+
+Example workflow:
+
+```text
+PDF
+↓
+
+Page 1
+↓
+
+Extract text
+
+↓
+
+Page 2
+
+↓
+
+Extract text
+
+↓
+
+Combine all text
+```
+
+At this stage, verify that the extracted text is readable.
+
+---
+
+## Step 6: Split the Text
+
+Large PDFs shouldn't be sent directly to an LLM.
+
+Split the text into smaller chunks, for example:
+
+* Chunk size: 500–1000 characters
+* Overlap: 100–200 characters
+
+Example:
+
+```text
+Chunk 1
+
+Python is a programming language...
+```
+
+```text
+Chunk 2
+
+Programming language used for AI...
+```
+
+The overlap helps preserve context.
+
+---
+
+## Step 7: Generate Embeddings
+
+An embedding converts text into a numerical representation.
+
+Example:
+
+```text
+"Python is easy"
+
+↓
+
+[0.45, 0.28, 0.17, ...]
+```
+
+Use an embedding model such as one from Sentence Transformers or Google.
+
+---
+
+## Step 8: Store Embeddings
+
+Use **FAISS** as the vector database.
+
+Store:
+
+* Chunk
+* Embedding
+
+Example:
+
+```text
+Chunk A
+↓
+
+Embedding
+
+↓
+
+Stored in FAISS
+```
+
+Now your document is searchable by meaning, not just keywords.
+
+---
+
+## Step 9: User Asks a Question
+
+Example:
+
+```text
+What is inheritance?
+```
+
+Convert the question into an embedding.
+
+---
+
+## Step 10: Similarity Search
+
+FAISS compares the question embedding with stored document embeddings.
+
+Example:
+
+```text
+Question
+
+↓
+
+Embedding
+
+↓
+
+Compare with all document chunks
+
+↓
+
+Top 3 most relevant chunks
+```
+
+---
+
+## Step 11: Send Context to the LLM
+
+Instead of sending the whole PDF, send only the relevant chunks.
+
+Example prompt:
+
+```text
+Context:
+Python supports inheritance...
+
+Question:
+Explain inheritance.
+
+Answer:
+```
+
+This makes responses faster and more accurate.
+
+---
+
+## Step 12: Display the Answer
+
+Build a simple interface using **Streamlit**.
+
+Basic UI flow:
+
+```text
+Upload PDF
+
+↓
+
+Click Process
+
+↓
+
+Ask Question
+
+↓
+
+Answer Appears
+```
+
+---
+
+# Features to Add Gradually
+
+### Version 1 (Beginner)
+
+* Upload one PDF
+* Ask questions
+* Show answers
+
+---
+
+### Version 2
+
+* Upload multiple PDFs
+* Maintain chat history
+* Add a "Clear Chat" button
+
+---
+
+### Version 3
+
+* Show the source page number for each answer
+* Display the matching text chunk
+* Download the conversation
+
+---
+
+### Version 4
+
+* Support scanned PDFs using OCR
+* Summarize the document
+* Extract tables
+* Answer questions across multiple documents
+
+---
+
+# Skills You'll Learn
+
+| Topic              | Why it matters                     |
+| ------------------ | ---------------------------------- |
+| Python             | Core programming                   |
+| Streamlit          | Build a web UI quickly             |
+| PyPDF              | Read PDF files                     |
+| Text Chunking      | Prepare documents for AI           |
+| Embeddings         | Represent text semantically        |
+| FAISS              | Fast similarity search             |
+| RAG                | Foundation of document Q&A systems |
+| Prompt Engineering | Improve LLM responses              |
+| LLM APIs           | Generate answers                   |
+
+## Suggested Learning Order
+
+1. Build a simple Streamlit app with a file uploader.
+2. Read and display text from an uploaded PDF.
+3. Split the extracted text into chunks.
+4. Generate embeddings for those chunks.
+5. Store and search them using FAISS.
+6. Connect an LLM to answer questions using the retrieved chunks.
+7. Improve the UI and add advanced features.
+
+This project mirrors the architecture used in many enterprise AI applications, so completing it will give you practical experience with concepts commonly used in GenAI interviews and real-world document assistant systems.
